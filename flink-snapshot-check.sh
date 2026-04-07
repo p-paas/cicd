@@ -1,12 +1,12 @@
 while true; do
   FLINK_NAME=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.spec.jobReference.name}' 2>/dev/null || true)
   STATUS=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status}' 2>/dev/null || true)
-  STATE="$(echo "${STATUS}" | jq -r '.state // empty')"
-  PATH_VALUE="$(echo "${STATUS}" | jq -r '.path // empty')"
-  FAILURES="$(echo "${STATUS}" | jq -r '.failures // empty')"
-  TRIGGER_ID="$(echo "${STATUS}" | jq -r '.triggerId // empty')"
-  TRIGGER_TS="$(echo "${STATUS}" | jq -r '.triggerTimestamp // empty')"
-  RESULT_TS="$(echo "${STATUS}" | jq -r '.resultTimestamp // empty')"
+  STATE=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status.state}' 2>/dev/null || true)
+  PATH_VALUE=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status.path}' 2>/dev/null || true)
+  FAILURES=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status.failures}' 2>/dev/null || true)
+  TRIGGER_ID=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status.triggerId}' 2>/dev/null || true)
+  TRIGGER_TS=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status.triggerTimestamp}' 2>/dev/null || true)
+  RESULT_TS=$(kubectl get flinkstatesnapshot "${SNAPSHOT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status.resultTimestamp}' 2>/dev/null || true)
 
   echo "${STATUS}"
 
