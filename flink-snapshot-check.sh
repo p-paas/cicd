@@ -22,11 +22,11 @@ while true; do
             \"template_variable\": {
               \"FLINK_NAME\": \"${FLINK_NAME}\",
               \"STATE\": \"${STATE}\",
-              \"Path\": \"${PATH_VALUE}\",
-              \"failures\": \"${FAILURES}\",
-              \"Trigger ID\": \"${TRIGGER_ID}\",
-              \"Trigger Time\": \"${TRIGGER_TS}\",
-              \"Result Time\": \"${RESULT_TS}\"
+              \"PATH_VALUE\": \"${PATH_VALUE}\",
+              \"FAILURES\": \"${FAILURES}\",
+              \"TRIGGER_ID\": \"${TRIGGER_ID}\",
+              \"TRIGGER_TS\": \"${TRIGGER_TS}\",
+              \"RESULT_TS\": \"${RESULT_TS}\"
             }
           }
         }
