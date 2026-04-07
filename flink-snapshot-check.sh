@@ -8,21 +8,30 @@ while true; do
   TRIGGER_TS="$(echo "${STATUS}" | jq -r '.triggerTimestamp // empty')"
   RESULT_TS="$(echo "${STATUS}" | jq -r '.resultTimestamp // empty')"
 
-  MSG="${FLINK_NAME} savepoint completed
-  State: ${STATE}
-  Path: ${PATH_VALUE}
-  Failures: ${FAILURES}
-  Trigger ID: ${TRIGGER_ID}
-  Trigger Time: ${TRIGGER_TS}
-  Result Time: ${RESULT_TS}"
-
-  echo "${MSG}"
+  echo "${STATUS}"
 
   if [ "${STATE}" = "COMPLETED" ]; then
-    echo "${STATUS}"
-    curl -X POST -H "Content-Type: application/json" \
-        -d "{\"msg_type\":\"text\",\"content\":{\"text\":\"${MSG}\"}}" \
-        ${WEBHOOK_URL}
+    curl -sS -X POST \
+      -H "Content-Type: application/json" \
+      -d "{
+        \"msg_type\": \"interactive\",
+        \"card\": {
+          \"type\": \"template\",
+          \"data\": {
+            \"template_id\": \"${TRMPATE_ID}\",
+            \"template_variable\": {
+              \"FLINK_NAME\": \"${FLINK_NAME}\",
+              \"STATE\": \"${STATE}\",
+              \"Path\": \"${PATH_VALUE}\",
+              \"failures\": \"${FAILURES}\",
+              \"Trigger ID\": \"${TRIGGER_ID}\",
+              \"Trigger Time\": \"${TRIGGER_TS}\",
+              \"Result Time\": \"${RESULT_TS}\"
+            }
+          }
+        }
+      }" \
+      "${WEBHOOK_URL}"
     exit 0
   fi
 
